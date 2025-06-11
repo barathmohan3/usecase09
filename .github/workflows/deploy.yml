@@ -1,5 +1,8 @@
+# .github/workflows/deploy.yml
 name: CI/CD
-
+on:
+  push:
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -16,13 +19,16 @@ jobs:
 
       - name: Login to Amazon ECR
         run: |
-          aws ecr get-login-password | docker login --username AWS --password-stdin <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
+          aws ecr get-login-password \
+            | docker login \
+                --username AWS \
+                --password-stdin <your_account_id>.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Build and Push Docker Image
         run: |
           docker build -t flask-app ./flask-app
-          docker tag flask-app:latest <ECR_IMAGE_URI>
-          docker push <ECR_IMAGE_URI>
+          docker tag flask-app:latest <your_account_id>.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest
+          docker push <your_account_id>.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest
 
       - name: Deploy to EKS
         run: |
