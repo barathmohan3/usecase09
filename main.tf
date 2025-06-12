@@ -13,7 +13,7 @@ module "eks" {
   subnet_ids      = module.vpc.public_subnets
   vpc_id          = module.vpc.vpc_id
 
-  manage_aws_auth = true
+enable_cluster_creator_admin_permissions = true
 
   eks_managed_node_groups = {
     eks_nodes = {
