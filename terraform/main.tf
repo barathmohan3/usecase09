@@ -19,7 +19,7 @@ module "vpc" {
 }
 
 module "eks" {
-  source          = ".modules/eks"
+  source          = "./modules/eks"
   cluster_name    = var.cluster_name
   cluster_version = "1.33"
   subnet_ids      = module.vpc.public_subnets   # ✅ Use output from VPC module
