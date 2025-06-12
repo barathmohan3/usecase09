@@ -41,11 +41,9 @@ jobs:
 
       - name: Terraform init
         run: terraform init
-        working-directory: terraform
 
       - name: Terraform plan
         run: terraform plan
-        working-directory: terraform
 
       - name: Terraform Apply or Destroy
         run: |
@@ -54,4 +52,3 @@ jobs:
           else
             terraform apply -auto-approve
           fi
-        working-directory: terraform
