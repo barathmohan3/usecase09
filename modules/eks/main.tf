@@ -7,7 +7,8 @@ module "eks" {
   subnet_ids      = var.subnets
   vpc_id          = var.vpc_id
 
-  manage_aws_auth = true  # ✅ Now this will be accepted
+
+enable_cluster_creator_admin_permissions = true
 
   eks_managed_node_groups = {
     eks_nodes = {
