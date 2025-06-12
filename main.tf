@@ -1,1 +1,26 @@
-module"vpc"{source="./modules/vpc"cidr_block="10.0.0.0/16"name="eks"}module"eks"{source="terraform-aws-modules/eks/aws"version="20.13.0"cluster_name=var.cluster_namecluster_version="1.33"subnet_ids=module.vpc.public_subnetsvpc_id=module.vpc.vpc_idmanage_aws_auth=trueeks_managed_node_groups={eks_nodes={desired_size=2max_size=3min_size=1instance_types=["t3.medium"]}}}
+module "vpc" {
+  source     = "./modules/vpc"
+  cidr_block = "10.0.0.0/16"
+  name       = "eks"
+}
+
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "20.13.0"
+
+  cluster_name    = var.cluster_name
+  cluster_version = "1.33"
+  subnet_ids      = module.vpc.public_subnets
+  vpc_id          = module.vpc.vpc_id
+
+  manage_aws_auth = true
+
+  eks_managed_node_groups = {
+    eks_nodes = {
+      desired_size   = 2
+      max_size       = 3
+      min_size       = 1
+      instance_types = ["t3.medium"]
+    }
+  }
+}
