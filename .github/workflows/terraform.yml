@@ -54,3 +54,4 @@ jobs:
           else
             terraform apply -auto-approve
           fi
+        working-directory: terraform
