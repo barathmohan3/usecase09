@@ -13,7 +13,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source     = "../modules/vpc"
+  source     = "./modules/vpc"
   cidr_block = "10.0.0.0/16"
   name       = "eks"
 }
@@ -22,8 +22,10 @@ module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = var.cluster_name
   cluster_version = "1.33"
-  subnet_ids      = var.subnets
-  vpc_id          = var.vpc_id
+  subnet_ids      = module.vpc.public_subnets   # ✅ Use output from VPC module
+  vpc_id          = module.vpc.vpc_id           # ✅ Use output from VPC module
+
+  manage_aws_auth = true
 
   eks_managed_node_groups = {
     eks_nodes = {
